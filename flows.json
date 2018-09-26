@@ -1,0 +1,343 @@
+[
+    {
+        "id": "465cfd27.107674",
+        "type": "tab",
+        "label": "gg-scale-opcua-ui",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6ad7c930.1a06b8",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#9e9c0a",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#9e9c0a",
+                    "edited": true
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#9e9c0a",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#e6e30f",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#9e9c0a",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            }
+        },
+        "site": {
+            "name": "Node OPCUA Test",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "366ed23a.21144e",
+        "type": "OpcUa-Endpoint",
+        "z": "465cfd27.107674",
+        "endpoint": "opc.tcp://localhost:4334/UA/MyLittleServer",
+        "login": true
+    },
+    {
+        "id": "22cd3988.a5e166",
+        "type": "ui_group",
+        "z": "",
+        "name": "Free Memory",
+        "tab": "de9d6da2.9de1",
+        "disp": false,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "de9d6da2.9de1",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Node OPC-UA Test",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "dd11a017.ef182",
+        "type": "debug",
+        "z": "465cfd27.107674",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 870,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "fb56a66d.407518",
+        "type": "OpcUa-Item",
+        "z": "465cfd27.107674",
+        "item": "ns=1;s=free_memory",
+        "datatype": "Double",
+        "value": "",
+        "name": "free_memory",
+        "x": 350,
+        "y": 40,
+        "wires": [
+            [
+                "935d0655.a58518"
+            ]
+        ]
+    },
+    {
+        "id": "935d0655.a58518",
+        "type": "OpcUa-Client",
+        "z": "465cfd27.107674",
+        "endpoint": "366ed23a.21144e",
+        "action": "read",
+        "time": "1",
+        "timeUnit": "s",
+        "name": "Test server (read items)",
+        "x": 650,
+        "y": 40,
+        "wires": [
+            [
+                "dd11a017.ef182"
+            ]
+        ]
+    },
+    {
+        "id": "91c96299.0254b",
+        "type": "inject",
+        "z": "465cfd27.107674",
+        "name": "Read",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "fb56a66d.407518"
+            ]
+        ]
+    },
+    {
+        "id": "8b71018d.22b7c",
+        "type": "inject",
+        "z": "465cfd27.107674",
+        "name": "Subscribe ( Interval 1 sec.)",
+        "topic": "",
+        "payload": "1000",
+        "payloadType": "num",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "x": 180,
+        "y": 140,
+        "wires": [
+            [
+                "570a09d3.d670e8"
+            ]
+        ]
+    },
+    {
+        "id": "269b4072.d6152",
+        "type": "debug",
+        "z": "465cfd27.107674",
+        "name": "Subscribed values",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1010,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "bc7a69e.c814e98",
+        "type": "OpcUa-Client",
+        "z": "465cfd27.107674",
+        "endpoint": "366ed23a.21144e",
+        "action": "subscribe",
+        "time": "1",
+        "timeUnit": "s",
+        "name": "Test server (subscribe items)",
+        "x": 740,
+        "y": 140,
+        "wires": [
+            [
+                "d70784da.a6c558",
+                "269b4072.d6152"
+            ]
+        ]
+    },
+    {
+        "id": "4b9d64e2.8f56cc",
+        "type": "ui_gauge",
+        "z": "465cfd27.107674",
+        "name": "Free Menory",
+        "group": "22cd3988.a5e166",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Free Memory",
+        "label": "",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#b0b500",
+            "#38ca3b"
+        ],
+        "seg1": "35",
+        "seg2": "65",
+        "x": 1230,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d70784da.a6c558",
+        "type": "function",
+        "z": "465cfd27.107674",
+        "name": "Parse Data",
+        "func": "if (msg.topic.indexOf('free_memory') > -1) context.set('free_memory',Math.round(100 *msg.payload) / 100);\nvar free_memory = context.get('free_memory');\nif (free_memory == undefined) free_memory = 0.0;\nreturn {'topic':'free_memory', 'payload':free_memory};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 970,
+        "y": 220,
+        "wires": [
+            [
+                "4b9d64e2.8f56cc",
+                "c379f64b.9992c8"
+            ]
+        ]
+    },
+    {
+        "id": "c379f64b.9992c8",
+        "type": "ui_chart",
+        "z": "465cfd27.107674",
+        "name": "Time chart",
+        "group": "22cd3988.a5e166",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Free Memory",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 1230,
+        "y": 240,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "570a09d3.d670e8",
+        "type": "OpcUa-Item",
+        "z": "465cfd27.107674",
+        "item": "ns=1;s=free_memory",
+        "datatype": "Double",
+        "value": "",
+        "name": "free_memory",
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "bc7a69e.c814e98"
+            ]
+        ]
+    }
+]
